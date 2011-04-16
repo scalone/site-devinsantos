@@ -139,7 +139,6 @@ DEPENDENCIES
   database_cleaner
   devise
   forgery
-  nokogiri
   rails (= 3.0.6)
   rspec-rails (~> 2.4)
   sqlite3
