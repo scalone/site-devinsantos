@@ -15,9 +15,6 @@
 			content.append(ul).fadeIn();
 		};
 		var jsonFlickrApi = function(data) {
-			if (data == undefined) {
-				return;
-			}
 			var content = $('#picturesContent').empty().hide();
 			var template = $('#picturesTemplate').tmpl(data.photos.photo);
 			content.append(template);
@@ -59,9 +56,6 @@
 			else return (d>9?d:('0'+d))+'/'+(m>9?m:('0'+m))+'/'+y;
 		};
 		var jsonVimeoApi = function(data) {
-			if (data == undefined) {
-				return;
-			}
 			var limit = 3;
 			data.splice(limit, data.length);
 			var content = $('#videosContent').empty().hide();
