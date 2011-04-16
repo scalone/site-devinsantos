@@ -1,1 +1,87 @@
 <p>Home</p>
+<% content_for :head do %>
+	<script type="text/javascript">
+		head.js('/javascripts/jquery-1.5.min.js',
+				'/javascripts/jquery.tmpl.min.js',
+				'http://search.twitter.com/search.json?callback=jsonTwitterApi&q=%23devinsantos&rpp=4',
+				'http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&format=json&per_page=20&api_key=API_KEY_TROCAR&user_id=TROCARUSER_ID',
+				'http://vimeo.com/api/v2/devinsantos/videos.json?callback=jsonVimeoApi');
+		head.ready(function() {
+			
+		var jsonTwitterApi = function(data) {
+			var content = $('#twitterContent').empty().hide();
+			var template = $('#twitterTemplate').tmpl(data.results);
+			var ul = $('<ul />').append(template);
+			content.append(ul).fadeIn();
+		};
+		var jsonFlickrApi = function(data) {
+			var content = $('#picturesContent').empty().hide();
+			var template = $('#picturesTemplate').tmpl(data.photos.photo);
+			content.append(template);
+			content.fadeIn();
+		};
+		//parse links, user id's, hashtags
+		var linkify= function(d){
+			return d.replace(/\bhttps?\:\/\/\S+/gi, function(b){
+				var c='';
+				b= b.replace(/(\.*|\?*|\!*)$/,function(m,a){
+					c=a;
+					return ''
+				});
+				return '<a href="'+b+'" target="_blank">'+((b.length>25)?b.substr(0,24)+'...':b)+'</a>'+c;
+			})
+			.replace(/\B\@([A-Z0-9_]{1,15})/gi,'@<a href="http://twitter.com/$1" target="_blank">$1</a>')
+			.replace(/\B\#([A-Z0-9_]+)/gi,'<a href="http://search.twitter.com/search?q=%23$1" target="_blank">#$1</a>')
+		};
+		//decode html at source
+		var decodeHTML = function(s) {
+			return s.replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"');
+		};
+		// Format publish date 
+		var formatDate = function(dstr){
+			var dat = new Date(),tody = new Date();
+			dat.setTime(Date.parse(dstr));
+			var td = tody.getDate(), tm = tody.getMonth()+1, ty = tody.getFullYear(), th = tody.getHours(), tmn = tody.getMinutes(), ts = tody.getSeconds();
+			var d = dat.getDate(), m = dat.getMonth()+1, y = dat.getFullYear(), h = dat.getHours(), mn = dat.getMinutes(), s = dat.getSeconds();
+			//today
+			if (y==ty && m==tm && d==td) {
+				var dh = th-h;
+				if (dh>0) return dh+' hora'+(dh>1?'s':'')+' atrás';
+				var dmn = tmn-mn;
+				if (dmn>0) return dmn+' minuto'+(dmn>1?'s':'')+' atrás';
+				var ds = ts-s;
+				return ds+' segundo'+(ds>1?'s':'')+' atrás';
+			}
+			//Old one
+			else return (d>9?d:('0'+d))+'/'+(m>9?m:('0'+m))+'/'+y;
+		};
+		var jsonVimeoApi = function(data) {
+			var limit = 3;
+			data.splice(limit, data.length);
+			var content = $('#videosContent').empty().hide();
+			var template = $('#videosTemplate').tmpl(data);
+			var ul = $('<ul />').append(template);
+			content.append(ul).fadeIn();
+		};
+	</script>
+<% end %>
+
+<div>
+	<section id="videos" class="grid_6 omega">
+		<h3>Vídeos</h3>
+		<div class="prefix_1" id="videosContent">Carregando vídeos...</div>
+		<script id="videosTemplate" type="text/x-jquery-tmpl"> 
+			<li class="clearfix">
+				<a href="${url}" target="_blank" class="photo"><img src="${thumbnail_small}" alt="${title}" width="100" height="75"></a>
+				<p>
+					<a href="${url}" target="_blank">${title}</a>
+					<br>
+					<span><time datetime="${upload_date}">${upload_date}</time></span>
+				</p>
+			</li>
+		</script>
+		<footer>
+			<a href="http://vimeo.com/cocentotecnologia" target="_blank">Veja mais no Vimeo</a>
+		</footer>
+	</section>	
+</div>
