@@ -4,7 +4,7 @@
 		head.js('/javascripts/jquery.min.js',
 				'/javascripts/jquery.tmpl.min.js',
 				'http://search.twitter.com/search.json?callback=jsonTwitterApi&q=%23devinsantos&rpp=4',
-				'http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&format=json&per_page=20&api_key=API_KEY_TROCAR&user_id=TROCARUSER_ID',
+				'http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&format=json&per_page=20&api_key=476667e6a2fda7abd4921d4a0d266294&user_id=61813876@N03',
 				'http://vimeo.com/api/v2/devinsantos/videos.json?callback=jsonVimeoApi');
 
 			
@@ -103,3 +103,21 @@
 		</footer>
 	</section>	
 </div>
+
+<div>
+  <section id="pictures" class="grid_6 alpha"> 
+    <h3>Fotos</h3> 
+    <div class="prefix_1" id="picturesContent">Carregando fotos...</div> 
+    <script id="picturesTemplate" type="text/x-jquery-tmpl"> 
+	    <a href="http://www.flickr.com/photos/cocento/${id}/" title="${title}" target="_blank"><img src="http://farm6.static.flickr.com/${server}/${id}_${secret}_s.jpg" alt="${title}"></a>
+    </script> 
+    <footer> 
+	    <a href="http://flickr.com/cocento" target="_blank">Veja mais no Flickr</a> 
+    </footer> 
+  </section>
+  <script id="picturesTemplate" type="text/x-jquery-tmpl"> 
+					<a href="http://www.flickr.com/photos/cocento/${id}/" title="${title}" target="_blank"><img src="http://farm6.static.flickr.com/${server}/${id}_${secret}_s.jpg" alt="${title}"></a>
+	</script> 
+</div>
+
+
