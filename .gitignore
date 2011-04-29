@@ -2,7 +2,9 @@
 db/*.sqlite3
 log/*.log
 tmp/
-.rvmrc
-nbproject/
-Gemfile.lock
-
+nbproject/*
+coverage/*
+*.swp
+*.swo
+.DS_Store
+config/database.yml
